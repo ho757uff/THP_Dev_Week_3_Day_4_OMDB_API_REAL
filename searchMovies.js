@@ -1,10 +1,5 @@
 import API_KEY from './apikey.js';
 
-//const searchMovies = async (searchTerm) => {
-// Ici, vous devrez remplacer 'YOUR_API_KEY' par votre clé API réelle
-//const apiKey = process.env.OMDB_API_KEY; // Remplacez 'YOUR_API_KEY' si vous exécutez sur un serveur
-//const url = `http://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${apiKey}`;
-
 const searchMovies = async (searchTerm) => {
   const url = `http://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${API_KEY}`;
 
@@ -37,4 +32,56 @@ document.getElementById('search-form').addEventListener('submit', async (event) 
       resultsContainer.appendChild(movieElement);
     });
   }
+});
+
+const openModal = (movie) => {
+  document.getElementById('modalTitle').textContent = movie.Title;
+  document.getElementById('modalDetails').textContent = `Année de sortie : ${movie.Year}`;
+  document.getElementById('movieModal').style.display = 'block';
+};
+
+document.getElementById('search-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const searchTerm = document.getElementById('movie-title').value;
+  const movies = await searchMovies(searchTerm);
+
+  const resultsContainer = document.getElementById('movie-results');
+  resultsContainer.innerHTML = '';
+
+  if (movies) {
+    movies.forEach(movie => {
+      const movieElement = document.createElement('div');
+      movieElement.classList.add('movie');
+      movieElement.innerHTML = `
+        <h3>${movie.Title}</h3>
+        <img src="${movie.Poster}" alt="${movie.Title}">
+        <p>Année : ${movie.Year}</p>
+        <button class="btn btn-primary read-more" data-movie='${JSON.stringify(movie)}'>Read more</button>
+      `;
+      resultsContainer.appendChild(movieElement);
+
+      movieElement.querySelector('.read-more').addEventListener('click', () => {
+        openModal(movie);
+      });
+    });
+
+    // Intersection Observer pour l'animation
+    document.querySelectorAll('.movie').forEach(movie => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateX(0)';
+          }
+        });
+      }, { threshold: 0.5 });
+
+      observer.observe(movie);
+    });
+  }
+});
+
+// Fermer la modal
+document.querySelector('.modal-close').addEventListener('click', () => {
+  document.getElementById('movieModal').style.display = 'none';
 });

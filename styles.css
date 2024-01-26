@@ -1,21 +1,16 @@
-/* Import Google Font 'Inter' */
+/* Import Google Font 'Inter' with various weights */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* Define Primary Colors */
+/* Define Primary Color Variables */
 :root {
   --primary-color: #007bff;
-  /* Softened Blue for a modern feel */
-  --background-color: #f4f0f5;
-  /* Lighter Background for readability */
+  --background-color: #a5a5a5;
   --text-color: #212529;
-  /* Dark Gray for text for better contrast */
   --accent-color: #ff4500;
-  /* Accent color for interactive elements */
   --border-radius: 0.5rem;
-  /* Border radius for rounded corners */
 }
 
-/* Basic Styles */
+/* Global Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -24,70 +19,58 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--background-color);
+  background-color: #ffd3d3;
+  /* Pale pink color of your choice */
   color: var(--text-color);
   line-height: 1.6;
-  /* Improved line height for readability */
 }
 
-/* Header */
+/* Header Styles */
 header {
   background-color: var(--primary-color);
   padding: 2rem 0;
   color: var(--background-color);
 }
 
-/* Page Title */
 header h1 {
   font-weight: 700;
-  /* Bold font weight for the title */
   font-size: 2.5rem;
-  /* Larger font size for title */
 }
 
-/* Search Section */
-.search-container {
-  background-color: var(--background-color);
-  padding: 2rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  /* Subtle box-shadow for depth */
+/* Centered Wrapper */
+.wrapper {
+  background-color: #b85885;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.search-element {
-  max-width: 500px;
-  /* Max width for better control */
-  margin: 0 auto;
-  padding: 1rem;
-  background: #fff;
-  /* White background for search area */
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
+/* Search Element Customization */
 .search-element .form-control {
   border: 2px solid var(--primary-color);
-  /* Border to match primary color */
   color: var(--text-color);
 }
 
 .search-element .btn {
   background-color: var(--accent-color);
-  color: #fff;
+  color: white;
   transition: background-color 0.3s;
 }
 
 .search-element .btn:hover {
-  background-color: darken(var(--accent-color), 10%);
+  background-color: rgba(255, 69, 0, 0.9); /* Darker version of accent color */
 }
 
-/* Search Results Section */
+/* Results Container Styles */
 .result-container {
   padding: 2rem;
 }
 
-/* Movie Results Styles */
+/* Individual Movie Styles */
 .movie {
-  background-color: #fff;
+  background-color: #b85885;
   padding: 1rem;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -100,19 +83,58 @@ header h1 {
   border-radius: var(--border-radius);
 }
 
-/* Responsive Styles for Larger Screens */
-
+/* Media Query for Larger Screens */
 @media screen and (min-width: 768px) {
   .result-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
     justify-content: space-between;
   }
 
   .movie {
-    width: calc(33.33% - 1rem);
-    /* Adjust spacing as needed */
-    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: transform 0.5s, opacity 0.5s;
+  }
+
+  /* Styles for the modal */
+  .modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .modal-content {
+    background-color: rgb(118, 23, 196);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .modal-footer {
+    margin-top: 1rem;
+  }
+
+  /* Style for the "Fermer" button in the modal */
+  .modal-close {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .modal-close:hover {
+    background-color: rgba(255, 69, 0, 0.9); /* Darker version of accent color */
   }
 }
